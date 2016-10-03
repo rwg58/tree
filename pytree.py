@@ -17,7 +17,7 @@ def filetree(path, t, has):
     block = ''
     for i in range(t):
         if has[i] is True:
-            block = block + '│  '
+            block = block + '|  '
         else:
             block = block + '   '
     dirs = os.listdir(path)
@@ -25,10 +25,10 @@ def filetree(path, t, has):
     for i in dirs:
         tmp = path + os.sep + i
         if i == dirs[-1]:
-            down = '└──'
+            down = '|-'
             has[t] = False
         else:
-            down = '├──'
+            down = '|-'
             has[t] = True
         print(block + down + i)
         if os.path.isdir(tmp):
