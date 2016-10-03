@@ -3,6 +3,7 @@ import subprocess
 import sys
 import os
 import re
+from os import listdir, sep, walk
 
 
 def clean_hidden_files(list):
@@ -13,7 +14,7 @@ def clean_hidden_files(list):
 
 def filetree(path, t, has):
     has.append(True)
-    block = '  '
+    block = ''
     for i in range(t):
         if has[i] is True:
             block = block + '│  '
@@ -33,10 +34,26 @@ def filetree(path, t, has):
         if os.path.isdir(tmp):
             filetree(tmp, t + 1, has)
 
+
+def count_em(valid_path):
+    dir_count = 0
+    file_count = 0
+    for root, dirs, files in os.walk(valid_path):
+        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        dir_count += len(dirs)
+
+        for f in files:
+            if not f.startswith('.'):
+                file_count += 1
+    print(dir_count, "directories,", file_count, "files")
+
+
 if __name__ == '__main__':
     if len(sys.argv) == 1:
+        print('.')
         currentPath = os.getcwd()
     else:
         currentPath = sys.argv[1]
-    print(currentPath)
-    filetree(currentPath, 0, []) 
+        print(currentPath)
+    filetree(currentPath, 0, [])
+    count_em(currentPath)
