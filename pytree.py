@@ -33,7 +33,7 @@ def filetree(path, t, has):
             has[t] = True
         print(block + down + i)
         if os.path.isdir(tmp):
-            filetree(tmp, t + 1, has)   
+            filetree(tmp, t + 1, has)
 
 
 def count_em(valid_path):
