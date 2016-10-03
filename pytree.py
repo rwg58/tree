@@ -2,13 +2,13 @@
 import subprocess
 import sys
 import os
-
-# YOUR CODE GOES here
+import re
 
 
 def clean_hidden_files(list):
     newdirs = [item for item in list if item[0] != '.']
-    return newdirs
+    newfiles = sorted(newdirs, key=lambda x: re.sub('[^a-zA-Z0-9]+', '', x).lower())
+    return newfiles
 
 
 def filetree(path, t, has):
@@ -16,7 +16,7 @@ def filetree(path, t, has):
     block = '  '
     for i in range(t):
         if has[i] is True:
-            block = block + '|  '
+            block = block + '│  '
         else:
             block = block + '   '
     dirs = os.listdir(path)
@@ -24,21 +24,16 @@ def filetree(path, t, has):
     for i in dirs:
         tmp = path + os.sep + i
         if i == dirs[-1]:
-            down = '|-'
+            down = '└──'
             has[t] = False
         else:
-            down = '|-'
+            down = '├──'
             has[t] = True
         print(block + down + i)
         if os.path.isdir(tmp):
             filetree(tmp, t + 1, has)
-# print (currentPath)
-# filetree(currentPath, 0, [])
-
 
 if __name__ == '__main__':
-# just for demo
-# subprocess.run(['tree'] + sys.argv[1:])
     if len(sys.argv) == 1:
         currentPath = os.getcwd()
     else:
